@@ -1,0 +1,36 @@
+name: Deploy DAGs to Cloud Composer
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'dags/*.py'
+
+env:
+  GCS_BUCKET: 'gs://us-central1-airflow-rrda-88c30861-bucket/dags'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY_AIRFLOW_89 }}
+      
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+      
+      - name: Upload DAGs to Cloud Composer
+        run: |
+          gsutil -m cp dags/*.py ${{ env.GCS_BUCKET }}/
+          echo "✅ DAGs deployed successfully!"
+      
+      - name: List uploaded DAGs
+        run: |
+          gsutil ls ${{ env.GCS_BUCKET }}/

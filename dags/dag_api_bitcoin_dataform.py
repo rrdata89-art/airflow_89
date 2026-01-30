@@ -14,16 +14,16 @@ from airflow.providers.google.cloud.operators.dataform import (
 # ==============================================================================
 # 🛠️ CONFIGURAÇÕES
 # ==============================================================================
-PROJECT_ID = "rrdata89"
+PROJECT_ID = "rrdata89_apis"
 REGION = "southamerica-east1"
-REPOSITORY_ID = "rrdata89" 
+REPOSITORY_ID = "rrdata89_apis" 
 
 # URL da sua Cloud Function (Ingestão Raw)
 FUNCTION_URL = "https://cf-api-bitcoin-1013772993221.southamerica-east1.run.app"
 
 # Configuração Padrão do Airflow
 default_args = {
-    'owner': 'rrdata89',
+    'owner': 'rrdata89_apis',
     'depends_on_past': False,
     'email_on_failure': False,
     'retries': 1,

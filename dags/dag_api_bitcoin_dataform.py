@@ -1,5 +1,7 @@
 """
 DAG: Pipeline Bitcoin V5 (Dataform)
+Descrição: Ingestão (Cloud Run) -> Transformação (Dataform)
+Frequência: Manual (Sob demanda)
 """
 from datetime import datetime, timedelta
 from airflow import DAG
@@ -14,11 +16,9 @@ from airflow.providers.google.cloud.operators.dataform import (
 # ==============================================================================
 PROJECT_ID = "rrdata89"
 REGION = "southamerica-east1"
+REPOSITORY_ID = "rrdara89" 
 
-# ⚠️ APOSTA: Baseado no seu GitHub, o nome no GCP deve ser este.
-# Se der erro 404, olhe na lista do console do Dataform o nome exato.
-REPOSITORY_ID = "rrdata89dataform" 
-
+# URL da Cloud Function
 FUNCTION_URL = "https://cf-api-bitcoin-1013772993221.southamerica-east1.run.app"
 
 default_args = {
@@ -30,10 +30,10 @@ default_args = {
 }
 
 with DAG(
-    "pipeline_api_bitcoin_v5_dataform",
+    "pipeline_api_bitcoin_dataform",
     default_args=default_args,
     start_date=datetime(2024, 1, 1),
-    schedule_interval=None, 
+    schedule_interval=None, # Manual
     catchup=False,
     tags=["bitcoin", "dataform"],
 ) as dag:
